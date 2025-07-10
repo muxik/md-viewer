@@ -22,11 +22,11 @@ export class TerminalRenderer {
 
   render(tokens: MarkdownToken[]): string[] {
     const lines: string[] = [];
-    
+
     for (const token of tokens) {
       const tokenLines = this.renderToken(token);
       lines.push(...tokenLines);
-      
+
       if (token.type !== 'list_item') {
         lines.push('');
       }
@@ -73,7 +73,7 @@ export class TerminalRenderer {
     const level = token.level || 1;
     const prefix = this.theme.styles.heading.prefix;
     const color = this.theme.colors.heading;
-    
+
     let content = token.content;
     let formattedContent = '';
 
@@ -139,7 +139,7 @@ export class TerminalRenderer {
   private renderCodeBlock(token: MarkdownToken): string[] {
     const lang = token.lang || 'text';
     const content = token.content;
-    
+
     let highlightedCode: string;
     try {
       const result = hljs.highlight(content, { language: lang });
@@ -150,11 +150,11 @@ export class TerminalRenderer {
 
     const lines = highlightedCode.split('\n');
     const paddedLines = lines.map(line => `  ${line}`);
-    
+
     const borderColor = this.theme.colors.border;
     const topBorder = chalk.hex(borderColor)('┌' + '─'.repeat(this.width - 2) + '┐');
     const bottomBorder = chalk.hex(borderColor)('└' + '─'.repeat(this.width - 2) + '┘');
-    
+
     return [topBorder, ...paddedLines, bottomBorder];
   }
 
@@ -162,11 +162,11 @@ export class TerminalRenderer {
     const prefix = this.theme.styles.quote.prefix;
     const color = this.theme.colors.quote;
     const lines: string[] = [];
-    
+
     // 计算缩进和可用宽度
     const indentSize = depth * 2;
     const availableWidth = this.width - indentSize - 2;
-    
+
     if (token.children) {
       // 处理引用块中的子token
       for (const child of token.children) {
@@ -186,7 +186,7 @@ export class TerminalRenderer {
       const textLines = this.wrapText(content, availableWidth);
       lines.push(...textLines);
     }
-    
+
     // 添加引用前缀和颜色
     const indent = ' '.repeat(indentSize);
     return lines.map(line => `${indent}${chalk.hex(color)(prefix)}${chalk.hex(color)(line)}`);
@@ -196,12 +196,12 @@ export class TerminalRenderer {
     const lines: string[] = [];
     const ordered = token.ordered || false;
     const indent = '  '.repeat(depth);
-    
+
     if (token.children) {
       token.children.forEach((item, index) => {
         let marker: string;
         let markerColor = this.theme.colors.listBullet;
-        
+
         if (item.task) {
           // 待办事项
           marker = item.checked ? '☑' : '☐';
@@ -210,9 +210,9 @@ export class TerminalRenderer {
           // 普通列表项
           marker = ordered ? `${index + 1}${this.theme.styles.list.number}` : this.theme.styles.list.bullet;
         }
-        
+
         const itemLines = this.renderListItem(item, depth);
-        
+
         if (itemLines.length > 0) {
           const firstLine = `${indent}  ${chalk.hex(markerColor)(marker)} ${itemLines[0]}`;
           const restLines = itemLines.slice(1).map(line => `${indent}     ${line}`);
@@ -220,13 +220,13 @@ export class TerminalRenderer {
         }
       });
     }
-    
+
     return lines;
   }
 
   private renderListItem(token: MarkdownToken, depth: number = 0): string[] {
     const lines: string[] = [];
-    
+
     if (token.children) {
       // 处理列表项的所有子token
       for (const child of token.children) {
@@ -250,7 +250,7 @@ export class TerminalRenderer {
       const textLines = this.wrapText(content, this.width - 5 - (depth * 2));
       lines.push(...textLines);
     }
-    
+
     return lines;
   }
 
@@ -261,7 +261,7 @@ export class TerminalRenderer {
 
     const rows = token.children.map(child => child.content.split('|').map(cell => cell.trim()));
     const maxCols = Math.max(...rows.map(row => row.length));
-    
+
     // 计算每列的最大宽度（考虑中文字符）
     const colWidths = Array(maxCols).fill(0);
     rows.forEach(row => {
@@ -282,11 +282,11 @@ export class TerminalRenderer {
     const lines: string[] = [];
     const borderColor = this.theme.colors.border;
     const headerColor = this.theme.colors.heading;
-    
+
     // 顶部边框
     const topBorder = '┌' + colWidths.map(width => '─'.repeat(width + 2)).join('┬') + '┐';
     lines.push(chalk.hex(borderColor)(topBorder));
-    
+
     rows.forEach((row, rowIndex) => {
       const formattedCells = row.map((cell, colIndex) => {
         const width = colWidths[colIndex] || 0;
@@ -302,10 +302,10 @@ export class TerminalRenderer {
         const content = this.padCellWithAnsi(processedCell, width);
         return content;
       });
-      
+
       const rowLine = chalk.hex(borderColor)('│') + ' ' + formattedCells.join(' ' + chalk.hex(borderColor)('│') + ' ') + ' ' + chalk.hex(borderColor)('│');
       lines.push(rowLine);
-      
+
       if (rowIndex === 0) {
         // 标题行下的分隔线
         const separator = '├' + colWidths.map(width => '─'.repeat(width + 2)).join('┼') + '┤';
@@ -359,10 +359,10 @@ export class TerminalRenderer {
     // 清理 ANSI 转义序列后计算显示宽度
     const cleanText = this.stripAnsiCodes(text);
     const displayWidth = this.getDisplayWidth(cleanText);
-    
+
     // 计算需要的填充空格数
     const padding = Math.max(0, targetWidth - displayWidth);
-    
+
     // 返回原文本加上填充空格
     return text + ' '.repeat(padding);
   }
@@ -393,7 +393,18 @@ export class TerminalRenderer {
   }
 
   private renderHtml(token: MarkdownToken): string[] {
-    return [chalk.hex(this.theme.colors.text).dim(token.content)];
+     let content = token.content;
+
+    // 移除所有HTML注释
+    content = content.replace(/<!--[\s\S]*?-->/g, '');
+
+    // 如果移除注释后内容为空或只有空白，则不渲染
+    if (!content.trim()) {
+      return [];
+    }
+
+    // 对于其他HTML内容，以淡色显示
+    return [chalk.hex(this.theme.colors.text).dim(content)];
   }
 
   private renderText(token: MarkdownToken): string[] {
@@ -416,7 +427,7 @@ export class TerminalRenderer {
   private renderTokenWithWidth(token: MarkdownToken, width: number): string[] {
     const originalWidth = this.width;
     this.width = width;
-    
+
     try {
       const result = this.renderToken(token);
       return result;
@@ -433,20 +444,65 @@ export class TerminalRenderer {
     const emColor = this.theme.colors.em;
     const delColor = this.theme.colors.del;
 
-    return content
-      .replace(/\*\*(.*?)\*\*/g, (_, text) => chalk.hex(strongColor).bold(text))
-      .replace(/\*(.*?)\*/g, (_, text) => chalk.hex(emColor).italic(text))
-      .replace(/~~(.*?)~~/g, (_, text) => chalk.hex(delColor).strikethrough(text))
-      .replace(/`([^`]+)`/g, (_, code) => chalk.hex(codeColor)(`${this.theme.styles.code.prefix}${code}${this.theme.styles.code.suffix}`))
-      .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, url) => chalk.hex(linkColor).underline(`[图片: ${alt || '图片'}] ${url}`))
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, text, url) => chalk.hex(linkColor).underline(text))
-      .replace(/https?:\/\/[^\s]+/g, (url) => chalk.hex(linkColor).underline(url))
-      || chalk.hex(textColor)(content);
+    // 使用占位符保护已处理的内容
+    const placeholders: string[] = [];
+    let result = content;
+
+    // 1. 先处理行内代码，用占位符替换
+    result = result.replace(/`([^`]+)`/g, (match, code) => {
+      const placeholder = `__PLACEHOLDER_${placeholders.length}__`;
+      const formatted = chalk.hex(codeColor)(`${this.theme.styles.code.prefix}${code}${this.theme.styles.code.suffix}`);
+      placeholders.push(formatted);
+      return placeholder;
+    });
+
+    // 2. 处理图片链接
+    result = result.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, url) => {
+      const placeholder = `__PLACEHOLDER_${placeholders.length}__`;
+      const formatted = chalk.hex(linkColor).underline(`[图片: ${alt || '图片'}] ${url}`);
+      placeholders.push(formatted);
+      return placeholder;
+    });
+
+    // 3. 处理普通链接
+    result = result.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
+      const placeholder = `__PLACEHOLDER_${placeholders.length}__`;
+      const formatted = chalk.hex(linkColor).underline(text);
+      placeholders.push(formatted);
+      return placeholder;
+    });
+
+    // 4. 处理直接URL
+    result = result.replace(/https?:\/\/[^\s]+/g, (url) => {
+      const placeholder = `__PLACEHOLDER_${placeholders.length}__`;
+      const formatted = chalk.hex(linkColor).underline(url);
+      placeholders.push(formatted);
+      return placeholder;
+    });
+
+    // 5. 处理粗斜体（三个星号）
+    result = result.replace(/\*\*\*(.*?)\*\*\*/g, (_, text) => chalk.hex(strongColor).bold.italic(text));
+
+    // 6. 处理粗体（两个星号）
+    result = result.replace(/\*\*(.*?)\*\*/g, (_, text) => chalk.hex(strongColor).bold(text));
+
+    // 7. 处理斜体（一个星号）
+    result = result.replace(/\*(.*?)\*/g, (_, text) => chalk.hex(emColor).italic(text));
+
+    // 8. 处理删除线
+    result = result.replace(/~~(.*?)~~/g, (_, text) => chalk.hex(delColor).strikethrough(text));
+
+    // 9. 恢复占位符
+    placeholders.forEach((formatted, index) => {
+      result = result.replace(`__PLACEHOLDER_${index}__`, formatted);
+    });
+
+    return result || chalk.hex(textColor)(content);
   }
 
   private wrapText(text: string, width: number): string[] {
     if (!text) return [''];
-    
+
     const words = text.split(' ');
     const lines: string[] = [];
     let currentLine = '';
@@ -454,7 +510,7 @@ export class TerminalRenderer {
     for (const word of words) {
       const testLine = currentLine ? `${currentLine} ${word}` : word;
       const cleanTestLine = testLine.replace(/\x1b\[[0-9;]*m/g, '');
-      
+
       if (cleanTestLine.length <= width) {
         currentLine = testLine;
       } else {
@@ -523,7 +579,7 @@ export class TerminalRenderer {
     };
 
     let result = html;
-    
+
     // 递归处理嵌套的 HTML 标签，从内到外
     let hasMatches = true;
     while (hasMatches) {
@@ -532,23 +588,23 @@ export class TerminalRenderer {
         // 处理复合类名，取第一个有效的类名
         const classes = className.split(' ');
         let color = this.theme.colors.codeBlock;
-        
+
         for (const cls of classes) {
           if (colorMap[cls]) {
             color = colorMap[cls];
             break;
           }
         }
-        
+
         return chalk.hex(color)(content);
       });
-      
+
       hasMatches = result !== beforeReplace;
     }
-    
+
     // 处理剩余的 HTML 标签
     result = result.replace(/<[^>]*>/g, '');
-    
+
     // 解码 HTML 实体
     result = result
       .replace(/&quot;/g, '"')
@@ -557,12 +613,12 @@ export class TerminalRenderer {
       .replace(/&lt;/g, '<')
       .replace(/&gt;/g, '>')
       .replace(/&amp;/g, '&');
-    
+
     // 如果没有任何高亮，使用默认颜色
     if (result === html) {
       result = chalk.hex(this.theme.colors.codeBlock)(html);
     }
-    
+
     return result;
   }
 

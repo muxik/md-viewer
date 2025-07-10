@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2025-07-10
+
+### Fixed
+- 🔗 **链接渲染问题** - 修复包含粗体文本的链接显示 ANSI 转义序列的问题
+- 🎨 **内联格式处理优化** - 改进链接和其他内联格式的处理顺序
+- 💻 **行内代码渲染** - 修复行内代码与其他格式冲突导致显示不完整的问题
+- ⭐ **粗斜体支持** - 添加对 `***粗斜体***` 格式的正确处理
+- 🚫 **HTML注释过滤** - 正确隐藏HTML注释内容，符合Markdown规范
+
 ## [1.0.1] - 2025-07-10
 
 ### Changed
