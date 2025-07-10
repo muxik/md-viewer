@@ -1,5 +1,5 @@
 {
-  "name": "md-viewer",
+  "name": "@muxik/md-viewer",
   "version": "1.0.0",
   "description": "A CLI tool for rendering Markdown files with syntax highlighting and pagination, optimized for AI output content display",
   "main": "dist/index.js",
