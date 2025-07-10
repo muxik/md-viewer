@@ -1,6 +1,6 @@
 {
   "name": "@muxik/md-viewer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A CLI tool for rendering Markdown files with syntax highlighting and pagination, optimized for AI output content display",
   "main": "dist/index.js",
   "bin": {
