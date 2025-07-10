@@ -40,12 +40,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/muxik/mdview.git"
+    "url": "https://github.com/muxik/md-viewer.git"
   },
   "bugs": {
-    "url": "https://github.com/muxik/mdview/issues"
+    "url": "https://github.com/muxik/md-viewer/issues"
   },
-  "homepage": "https://github.com/muxik/mdview#readme",
+  "homepage": "https://github.com/muxik/md-viewer#readme",
   "engines": {
     "node": ">=14.0.0"
   },
