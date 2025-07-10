@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![MDView Demo](https://raw.githubusercontent.com/yourusername/mdview/main/docs/images/demo.gif)
+![MDView Demo](https://raw.githubusercontent.com/muxik/md-viewer/main/docs/images/demo.gif)
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg?style=flat-square)
 ![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat-square)
@@ -50,14 +50,14 @@
 ### 全局安装
 
 ```bash
-npm install -g md-viewer
+npm install -g @muxik/md-viewer
 ```
 
 ### 从源码构建
 
 ```bash
 git clone https://github.com/muxik/md-viewer.git
-cd mdview
+cd md-viewer
 npm install
 npm run build
 npm link  # 创建全局链接
@@ -128,7 +128,7 @@ Options:
 ### 作为 Node.js 模块使用
 
 ```javascript
-import { Mdview } from 'mdview';
+import { Mdview } from '@muxik/md-viewer';
 
 // 创建实例
 const mdview = new Mdview({
@@ -173,10 +173,10 @@ interface MdviewOptions {
 
 <div align="center">
 
-![One Dark Theme](https://raw.githubusercontent.com/muxik/mdview/main/docs/images/theme-onedark.png)
+![One Dark Theme](https://raw.githubusercontent.com/muxik/md-viewer/main/docs/images/theme-onedark.png)
 <p><em>One Dark 主题（默认）</em></p>
 
-![Light Theme](https://raw.githubusercontent.com/muxik/mdview/main/docs/images/theme-light.png)
+![Light Theme](https://raw.githubusercontent.com/muxik/md-viewer/main/docs/images/theme-light.png)
 <p><em>Light 主题</em></p>
 
 </div>
@@ -217,7 +217,7 @@ src/
 ```bash
 # 克隆仓库
 git clone https://github.com/muxik/md-viewer.git
-cd mdview
+cd md-viewer
 
 # 安装依赖
 npm install
@@ -249,7 +249,7 @@ npm run format
 
 <div align="center">
 
-![AI Integration](https://raw.githubusercontent.com/muxik/mdview/main/docs/images/ai-integration.png)
+![AI Integration](https://raw.githubusercontent.com/muxik/md-viewer/main/docs/images/ai-integration.png)
 <p><em>与 AI 工具完美集成</em></p>
 
 </div>
@@ -330,7 +330,7 @@ view_readme() {
 ## 🔗 相关链接
 
 - [GitHub 仓库](https://github.com/muxik/md-viewer)
-- [NPM 包](https://www.npmjs.com/package/md-viewer)
+- [NPM 包](https://www.npmjs.com/package/@muxik/md-viewer)
 - [问题反馈](https://github.com/muxik/md-viewer/issues)
 - [更新日志](CHANGELOG.md)
 
