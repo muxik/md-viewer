@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2025-07-10
+
+### Changed
+- 📚 **文档完善** - 更新项目文档以反映正确的包名和仓库信息
+  - 更新 README.md 中的安装命令为 `npm install -g @muxik/md-viewer`
+  - 更新所有 GitHub 链接指向 `github.com/muxik/md-viewer`
+  - 更新 NPM 包链接为 `@muxik/md-viewer`
+  - 修正图片链接路径
+
+### Added
+- 📋 **CHANGELOG.md** - 添加版本变更记录文件
+- 📖 **GitHub Releases 指南** - 添加完整的发布流程文档
+- 📦 **发布配置优化** - 改进 package.json 发布配置
+
+### Fixed
+- 🔗 **链接一致性** - 修复文档中的仓库链接不一致问题
+- 📝 **API 文档** - 修正模块导入示例
+
 ## [1.0.0] - 2025-07-10
 
 ### Added
@@ -131,34 +149,11 @@ echo "# Hello World" | mdview
 
 ---
 
-## 未来计划 (Roadmap)
-
-### v1.1.0 (计划中)
-- 🎨 更多内置主题
-- 📊 更好的表格渲染
-- 🔍 搜索功能
-- 📋 目录导航
-
-### v1.2.0 (计划中)
-- 🖼️ 图片预览支持
-- 📖 书签功能
-- 🎵 音频/视频链接处理
-- 🔗 更智能的链接处理
-
-### v2.0.0 (远期计划)
-- 🎛️ 插件系统
-- 🎨 自定义主题支持
-- 📝 配置文件支持
-- 🌐 Web 界面（可选）
-
----
-
 ## 贡献指南
 
 欢迎提交 Issue 和 Pull Request！
 
 - 🐛 **Bug 报告**: [GitHub Issues](https://github.com/muxik/md-viewer/issues)
-- 💡 **功能建议**: [GitHub Discussions](https://github.com/muxik/md-viewer/discussions)
 - 🤝 **代码贡献**: Fork → 开发 → PR
 
 ## 许可证
