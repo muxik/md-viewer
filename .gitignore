@@ -1,0 +1,15 @@
+.idea
+.claude
+node_modules
+.vscode
+dist
+package-lock.json
+yarn.lock
+
+*.tmp
+*.temp
+debug-*.js
+test-*.md
+PUBLISH.md
+*.log
+complex-example.md

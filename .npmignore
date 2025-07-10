@@ -1,0 +1,34 @@
+# 开发环境文件
+.idea
+.claude
+.vscode
+*.log
+.DS_Store
+
+# 源代码（只发布编译后的文件）
+src/
+tsconfig.json
+*.ts
+!*.d.ts
+
+# 测试文件
+test/
+*.test.js
+*.test.ts
+coverage/
+
+# 构建相关
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 开发依赖
+package-lock.json
+yarn.lock
+
+# 临时文件
+*.tmp
+*.temp
+debug-*.js
+test-*.md
