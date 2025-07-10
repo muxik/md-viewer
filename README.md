@@ -50,13 +50,13 @@
 ### 全局安装
 
 ```bash
-npm install -g mdview
+npm install -g md-viewer
 ```
 
 ### 从源码构建
 
 ```bash
-git clone https://github.com/muxik/mdview.git
+git clone https://github.com/muxik/md-viewer.git
 cd mdview
 npm install
 npm run build
@@ -216,7 +216,7 @@ src/
 
 ```bash
 # 克隆仓库
-git clone https://github.com/yourusername/mdview.git
+git clone https://github.com/muxik/md-viewer.git
 cd mdview
 
 # 安装依赖
@@ -329,9 +329,9 @@ view_readme() {
 
 ## 🔗 相关链接
 
-- [GitHub 仓库](https://github.com/yourusername/mdview)
-- [NPM 包](https://www.npmjs.com/package/mdview)
-- [问题反馈](https://github.com/yourusername/mdview/issues)
+- [GitHub 仓库](https://github.com/muxik/md-viewer)
+- [NPM 包](https://www.npmjs.com/package/md-viewer)
+- [问题反馈](https://github.com/muxik/md-viewer/issues)
 - [更新日志](CHANGELOG.md)
 
 ---
